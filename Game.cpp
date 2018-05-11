@@ -64,8 +64,6 @@ bool Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 
    //LoadTextures();
    //LoadObjects();
-
-   //TheInputHandler::Instance()->initialiseJoysticks();
    
    return true;
 }
