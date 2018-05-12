@@ -3,6 +3,7 @@
 #include "CollisionManager.h"
 #include "Game.h"
 #include "Ball.h"
+#include "Paddle.h"
 
 
 const std::string PlayState::playStateID = "PLAY";
@@ -34,10 +35,27 @@ void PlayState::render ()
 void PlayState::onEnter()
 {
   TheTextureManager::Instance()->load("assets/white.png", "ball", TheGame::Instance()->getRenderer());
-    ball = new Ball((680/2),30,22,22,"ball", 4, NONE);
+  ball = new Ball((680/2),30,22,22,"ball", 4, NONE);
+  gameObjects.push_back(ball);
 
-    gameObjects.push_back(ball);
-
+  int paddleWidth = 90;
+  int paddleHeight = 16;
+  
+  TheTextureManager::Instance()->load("assets/yellow.png", "paddle", TheGame::Instance()->getRenderer());
+  paddleTop = new Paddle((TheGame::Instance()->getWindowWidth()/2)-(paddleWidth/2),
+                         TheGame::Instance()->getBorderWidth(),
+                         paddleWidth,
+                         paddleHeight,
+                         "paddle",
+                         2);
+  paddleBottom = new Paddle((TheGame::Instance()->getWindowWidth()/2)-(paddleWidth/2),
+                            (TheGame::Instance()->getWindowHeight())-TheGame::Instance()->getBorderWidth()-paddleHeight,
+                            paddleWidth,
+                            paddleHeight,
+                            "paddle",
+                            2);
+  gameObjects.push_back(paddleTop);
+  gameObjects.push_back(paddleBottom);
 
 }
 

@@ -67,7 +67,9 @@ bool Game::init(const char* title, int xpos, int ypos, int width, int height, bo
    m_bRunning = true;//start the main loop
    windowWidth = width;
    windowHeight = height;
+   borderWidth = 10;
 
+   
    loadSounds();
    loadTextures();
    loadObjects();
@@ -100,7 +102,6 @@ void Game::loadObjects()
 {
   //  ball = new Ball((windowWidth/2),30,22,22,"ball", 4, NONE);
     
-  int borderWidth = 10;
   //w=640
   m_gameObjects.push_back(new BounceSurface(0,(windowHeight-borderWidth), windowWidth,borderWidth,"whiteWall",1,2)); //bottom wall
   m_gameObjects.push_back(new BounceSurface(0,0, windowWidth,borderWidth,"whiteWall",1,2)); //top wall

@@ -55,7 +55,7 @@ void Ball::handleInput()
     TheSoundMixer::Instance()->playSound("spaceBar", 0);
     reverseHoriztonalDirection();//reverse direction method
   }
- }
+}
 
 void Ball::reverseVerticalDirection(){
   if (verticalDirection == UP) {

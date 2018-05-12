@@ -10,6 +10,7 @@
 //class GameState;
 class GameObject;
 class Ball;
+class Paddle;
 
 class PlayState : public GameState {  
   
@@ -27,7 +28,8 @@ private:
   static const std::string playStateID;
   std::vector<GameObject*> gameObjects;
   Ball* ball;
-
+  Paddle* paddleTop;
+  Paddle* paddleBottom;
 };
 
 

@@ -36,9 +36,6 @@ void reverseVerticalDirection();
 private:
 void handleInput();
 
-
-  //~Ball();
-
 int verticalDirection;
 int horizontalDirection;
 

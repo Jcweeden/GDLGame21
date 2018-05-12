@@ -39,6 +39,10 @@ public:
 
   bool running() {return m_bRunning;}
 
+  int getWindowHeight(){return windowHeight;}
+  int getWindowWidth(){return windowWidth;}
+  int getBorderWidth(){return borderWidth;}
+  
 private:
 
   Game() {}
@@ -55,6 +59,7 @@ private:
 
   int windowWidth;
   int windowHeight;
+  int borderWidth;
 
   GameStateManager* m_pGameStateManager;
 
