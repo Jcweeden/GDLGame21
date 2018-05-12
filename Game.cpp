@@ -1,5 +1,6 @@
 #include "Game.h"
 #include <iostream>
+#include "Ball.h"
 
 
 Game* Game::s_pInstance = 0;
@@ -77,7 +78,7 @@ void Game::loadTextures()
 
 void Game::loadObjects()
 {
-  m_gameObjects.push_back(new GameObject(100,100,128,128,"ball"));
+  m_gameObjects.push_back(new Ball(20,20,128,128,"ball",4));
 
 }
 

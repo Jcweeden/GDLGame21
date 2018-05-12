@@ -1,20 +1,23 @@
 #ifndef _GameObject_
 #define _GameObject_
+
 #include "SDL2/SDL.h"
-#include "SDL2/SDL_image.h"
+//#include "SDL2/SDL_image.h"
 #include "Game.h"
 #include "I_GameObject.h"
+#include "TextureManager.h"
+
 #include "Vector2D.h"
-//#include "LoaderParams.h"
 #include <iostream>
 #include <string>
 
 
-class GameObject : public I_GameObject {
+
+class GameObject  : public I_GameObject {
 
 public:
 
-  GameObject( int x, int y, int p_width, int p_height, std::string textureID);
+  GameObject(int x, int y, int p_width, int p_height, std::string textureID, int p_numFrames);
 
   
   virtual void draw();
@@ -29,7 +32,7 @@ public:
   
 protected:
 
-  virtual ~GameObject() {}
+  // virtual ~GameObject() {}
 
   
   int width;
@@ -39,12 +42,15 @@ protected:
   Vector2D velocity;
   Vector2D acceleration;
 
-  
+
+  int numFrames;
   int currentRow;
   int currentFrame;
 
   std::string textureID;
 
+private:
+  //virtual void handleInput();
 };
 
 #endif
