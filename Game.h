@@ -3,13 +3,14 @@
 #include <SDL2/SDL.h>
 
 #include "InputHandler.h"
-#include "GameObject.h"
 //#include "Ball.h"
+#include "GameObject.h"
 #include "TextureManager.h"
 #include <iostream>
 #include <vector>
 
 class GameObject;
+class Ball;
 
 class Game
 {
@@ -49,8 +50,11 @@ private:
     
   bool m_bRunning;
 
-  
+  Ball* ball;
 
+
+  int windowWidth;
+  int windowHeight;
 };
 
 

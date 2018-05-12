@@ -1,7 +1,8 @@
 #include "Game.h"
 #include <iostream>
 #include "Ball.h"
-
+#include "BounceSurface.h"
+#include "CollisionManager.h"
 
 Game* Game::s_pInstance = 0;
 
@@ -40,7 +41,7 @@ bool Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 
        if (m_pRenderer != 0) {
          std::cout << "Game: Renderer creation success\n";
-         SDL_SetRenderDrawColor(m_pRenderer, 0, 0, 0, 255);
+         SDL_SetRenderDrawColor(m_pRenderer, 0, 50, 0, 255);
        }
        else {
          std::cout << "Game: Renderer init failed\n";
@@ -61,7 +62,8 @@ bool Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 
    std::cout << "Game: Init success\n";
    m_bRunning = true;//start the main loop
-
+   windowWidth = width;
+   windowHeight = height;
 
    loadTextures();
        
@@ -72,14 +74,24 @@ bool Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 
 void Game::loadTextures()
 {
-  TheTextureManager::Instance()->load("assets/ball.png", "ball", m_pRenderer);
+  TheTextureManager::Instance()->load("assets/blue.png", "ball", m_pRenderer);
+  TheTextureManager::Instance()->load("assets/white.png", "whiteWall", m_pRenderer);
+  TheTextureManager::Instance()->load("assets/red.png", "redWall", m_pRenderer);
 
 }
 
 void Game::loadObjects()
 {
-  m_gameObjects.push_back(new Ball(20,20,128,128,"ball",4));
+  ball = new Ball(300,30,42,42,"ball", 4, NONE);
+      //m_gameObjects.push_back();
 
+  int borderWidth = 10;
+  //w=640
+  m_gameObjects.push_back(new BounceSurface(0,(windowHeight-borderWidth), windowWidth,borderWidth,"whiteWall",1,2)); //bottom wall
+  m_gameObjects.push_back(new BounceSurface(0,0, windowWidth,borderWidth,"whiteWall",1,2)); //top wall
+
+  m_gameObjects.push_back(new BounceSurface(0,borderWidth, borderWidth,(windowHeight-borderWidth-borderWidth),"redWall",1,1)); //right wall
+  m_gameObjects.push_back(new BounceSurface((windowWidth-borderWidth),borderWidth, borderWidth,(windowHeight-borderWidth-borderWidth),"redWall",1,1)); //left wall
 }
 
 void Game::render()
@@ -90,6 +102,8 @@ void Game::render()
   {
     m_gameObjects[i]->draw(/*m_pRenderer*/);
   }
+  ball->draw();
+
   
   SDL_RenderPresent(m_pRenderer);  //draw to the screen
 }
@@ -102,11 +116,11 @@ void Game::update() {
    {
      m_gameObjects[i]->update();
    }
+   ball->update();
+        
 
-   if (TheInputHandler::Instance()->isKeyDown(SDL_SCANCODE_UP))
-   {
-     std::cout << "up is down\n";
-   }
+   //loop through objects and check for collisions against the ball
+   TheCollManager::Instance()->checkForCollsionsAgainstBall(ball, m_gameObjects);
 }
 
 void Game::clean() {

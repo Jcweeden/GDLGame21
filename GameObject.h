@@ -17,7 +17,7 @@ class GameObject  : public I_GameObject {
 
 public:
 
-  GameObject(int x, int y, int p_width, int p_height, std::string textureID, int p_numFrames);
+  GameObject(int x, int y, int p_width, int p_height, std::string textureID, int p_numFrames, int p_resultOfCollisionType);
 
   
   virtual void draw();
@@ -29,6 +29,9 @@ public:
   Vector2D& getPosition() { return position; }
   int getWidth() { return width; }
   int getHeight() { return height; }
+
+  virtual int resultOfCollision() {}
+
   
 protected:
 
@@ -49,8 +52,9 @@ protected:
 
   std::string textureID;
 
-private:
-  //virtual void handleInput();
+
+  int resultOfCollisionType;
+
 };
 
 #endif

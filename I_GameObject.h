@@ -7,6 +7,13 @@
 #include <iostream>
 #include <string>
 
+enum resultOfCollide{
+  NONE = 0,
+  GAMEOVER = 1,
+  BOUNCE = 2
+};
+
+
 class I_GameObject {
 
 public:
@@ -17,8 +24,12 @@ public:
   virtual void update() = 0;
   virtual void clean() = 0;
 
+  virtual int resultOfCollision() {}
+
 protected:
 
+  int resultOfCollisionType;
+  
   //virtual ~I_GameObject() {}
 
 };

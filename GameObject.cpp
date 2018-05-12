@@ -1,7 +1,7 @@
 #include "GameObject.h"
 
-GameObject::GameObject( int x, int y, int p_width, int p_height, std::string p_textureID, int p_numFrames) :
-    position(x,y), width(p_width), height(p_height), textureID(p_textureID), numFrames(p_numFrames), velocity(0,0), acceleration(0,0)
+GameObject::GameObject( int x, int y, int p_width, int p_height, std::string p_textureID, int p_numFrames, int p_resultOfCollisionType) :
+    position(x,y), width(p_width), height(p_height), textureID(p_textureID), numFrames(p_numFrames), resultOfCollisionType(p_resultOfCollisionType), velocity(0,0), acceleration(0,0)
 {
 
 }
