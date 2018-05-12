@@ -1,6 +1,8 @@
 #include "Game.h"
 #include <iostream>
 #include "SoundMixer.h"
+
+#include "PlayState.h"
 #include "Ball.h"
 #include "BounceSurface.h"
 #include "CollisionManager.h"
@@ -67,10 +69,14 @@ bool Game::init(const char* title, int xpos, int ypos, int width, int height, bo
    windowHeight = height;
 
    loadSounds();
-   
    loadTextures();
-       
    loadObjects();
+
+   m_pGameStateManager = new GameStateManager();
+   
+   //start on MenuState
+   m_pGameStateManager->pushState(new PlayState());
+   
    
    return true;
 }
@@ -84,7 +90,6 @@ void Game::loadSounds()
 
 void Game::loadTextures()
 {
-  TheTextureManager::Instance()->load("assets/blue.png", "ball", m_pRenderer);
   TheTextureManager::Instance()->load("assets/white.png", "whiteWall", m_pRenderer);
   TheTextureManager::Instance()->load("assets/red.png", "redWall", m_pRenderer);
   TheTextureManager::Instance()->load("assets/overlayscreen.png", "overlayFilter", m_pRenderer);
@@ -93,9 +98,8 @@ void Game::loadTextures()
 
 void Game::loadObjects()
 {
-  ball = new Ball((windowWidth/2),30,22,22,"whiteWall", 4, NONE);
-      //m_gameObjects.push_back();
-
+  //  ball = new Ball((windowWidth/2),30,22,22,"ball", 4, NONE);
+    
   int borderWidth = 10;
   //w=640
   m_gameObjects.push_back(new BounceSurface(0,(windowHeight-borderWidth), windowWidth,borderWidth,"whiteWall",1,2)); //bottom wall
@@ -112,13 +116,19 @@ void Game::render()
 {
   SDL_RenderClear(m_pRenderer); // clear the renderer to the draw colour
 
+
+  //draw background
   for(size_t i = 0; i < m_gameObjects.size(); i++)
   {
-    m_gameObjects[i]->draw(/*m_pRenderer*/);
+    m_gameObjects[i]->draw();
   }
-  ball->draw();
+
+  //draw game / menu
+  m_pGameStateManager->render();
+
+  //draw screen filter
   screenOverlay->draw();
-  
+
   SDL_RenderPresent(m_pRenderer);  //draw to the screen
 }
 
@@ -130,11 +140,9 @@ void Game::update() {
    {
      m_gameObjects[i]->update();
    }
-   ball->update();
-        
 
-   //loop through objects and check for collisions against the ball
-   TheCollManager::Instance()->checkForCollsionsAgainstBall(ball, m_gameObjects);
+   m_pGameStateManager->update();
+
 }
 
 void Game::clean() {
@@ -142,6 +150,10 @@ void Game::clean() {
 
   //TheInputHandler::Instance()->clean();//remove any controller connections
 
+  for (size_t i; i < m_gameObjects.size(); i++) {
+    m_gameObjects[i]->clean();
+  }
+  m_gameObjects.clear();
   
   SDL_DestroyWindow (m_pWindow);
   SDL_DestroyRenderer (m_pRenderer);

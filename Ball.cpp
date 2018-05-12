@@ -1,7 +1,5 @@
 #include "Ball.h"
 #include "SoundMixer.h"
-#include <unistd.h>
-
 
 
 Ball::Ball(int x, int y, int p_width, int p_height, std::string textureID, int p_numFrames, int p_resultOfCollisionType)

@@ -65,6 +65,4 @@ void SoundMixer::playSound(std::string id, int loop)
 {
   Mix_PlayChannel(2, m_sfxs[id], loop);
   std::cout << "playing sound\n";
-  // usleep(1000);
-
 }

@@ -2,6 +2,7 @@
 #define _Game_
 #include "SDL2/SDL.h"
 
+#include "GameStateManager.h"
 #include "InputHandler.h"
 //#include "Ball.h"
 #include "GameObject.h"
@@ -31,7 +32,7 @@ public:
   void loadTextures();
   void loadObjects();
   
-  std::vector<GameObject*> m_gameObjects;
+  std::vector<GameObject*> m_gameObjects; //walls
 
   SDL_Renderer* getRenderer() const { return m_pRenderer; }
 
@@ -48,13 +49,18 @@ private:
   SDL_Window* m_pWindow;
   SDL_Renderer* m_pRenderer;
     
-  bool m_bRunning;
 
   Ball* ball;
   GameObject* screenOverlay;
 
   int windowWidth;
   int windowHeight;
+
+  GameStateManager* m_pGameStateManager;
+
+  //start the game loop
+  bool m_bRunning;
+
 };
 
 

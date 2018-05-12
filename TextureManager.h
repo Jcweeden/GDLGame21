@@ -16,10 +16,12 @@ public:
   void draw(std::string id, int x, int y, int width, int height, SDL_Renderer* pRenderer, SDL_RendererFlip flip);
   bool load(std::string file, std::string mapID, SDL_Renderer* pRenderer);
 
+  void clearFromTextureMap(std::string id);
 
   std::map<std::string , SDL_Texture*> textureMap;
   
 private:
+  
   TextureManager () {};
 
   static TextureManager* s_pInstance;
