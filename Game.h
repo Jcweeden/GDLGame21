@@ -4,6 +4,7 @@
 
 #include "InputHandler.h"
 #include "GameObject.h"
+#include "TextureManager.h"
 #include <iostream>
 #include <vector>
 
@@ -24,7 +25,13 @@ public:
 
   void quit();
 
+
+  void loadTextures();
+  void loadObjects();
+  
   std::vector<GameObject*> m_gameObjects;
+
+  SDL_Renderer* getRenderer() const { return m_pRenderer; }
 
 
   bool running() {return m_bRunning;}

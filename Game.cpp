@@ -62,12 +62,24 @@ bool Game::init(const char* title, int xpos, int ypos, int width, int height, bo
    m_bRunning = true;//start the main loop
 
 
-   //LoadTextures();
-   //LoadObjects();
+   loadTextures();
+       
+   loadObjects();
    
    return true;
 }
 
+void Game::loadTextures()
+{
+  TheTextureManager::Instance()->load("assets/ball.png", "ball", m_pRenderer);
+
+}
+
+void Game::loadObjects()
+{
+  m_gameObjects.push_back(new GameObject(100,100,128,128,"ball"));
+
+}
 
 void Game::render()
 {
@@ -89,7 +101,11 @@ void Game::update() {
    {
      m_gameObjects[i]->update();
    }
-   
+
+   if (TheInputHandler::Instance()->isKeyDown(SDL_SCANCODE_UP))
+   {
+     std::cout << "up is down\n";
+   }
 }
 
 void Game::clean() {

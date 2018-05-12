@@ -20,6 +20,9 @@ public:
   bool isKeyDown(SDL_Scancode key);
   
 private:
+
+  InputHandler(){};
+  
     static InputHandler* s_pInstance;
 
 

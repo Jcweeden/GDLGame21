@@ -3,21 +3,47 @@
 #include "SDL2/SDL.h"
 #include "SDL2/SDL_image.h"
 #include "Game.h"
+#include "I_GameObject.h"
+#include "Vector2D.h"
 //#include "LoaderParams.h"
 #include <iostream>
 #include <string>
 
-class GameObject {
+
+class GameObject : public I_GameObject {
 
 public:
-  virtual void draw() = 0;
-  virtual void update() = 0;
-  virtual void clean() = 0;
 
+  GameObject( int x, int y, int p_width, int p_height, std::string textureID);
+
+  
+  virtual void draw();
+  virtual void update();
+  virtual void clean();
+
+
+
+  Vector2D& getPosition() { return position; }
+  int getWidth() { return width; }
+  int getHeight() { return height; }
+  
 protected:
 
-  GameObject(/*const LoaderParams* pParams*/) {}
   virtual ~GameObject() {}
+
+  
+  int width;
+  int height;
+
+  Vector2D position;
+  Vector2D velocity;
+  Vector2D acceleration;
+
+  
+  int currentRow;
+  int currentFrame;
+
+  std::string textureID;
 
 };
 
