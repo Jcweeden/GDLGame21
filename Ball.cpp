@@ -1,4 +1,6 @@
 #include "Ball.h"
+#include "SoundMixer.h"
+#include <unistd.h>
 
 
 
@@ -24,11 +26,20 @@ void Ball::update()
 
   if (verticalDirection == DOWN)
   {
-    velocity.setY(1);
+    velocity.setY(2);
   }
   else
   {
-    velocity.setY(-1);
+    velocity.setY(-2);
+  }
+
+  if (horizontalDirection == RIGHT)
+  {
+    velocity.setX(-2);
+  }
+  else
+  {
+    velocity.setX(2);
   }
 
   GameObject::update();
@@ -40,9 +51,10 @@ void Ball::clean(){}
 
 void Ball::handleInput()
 {
-  if (TheInputHandler::Instance()->isKeyDown(SDL_SCANCODE_SPACE))
+  if (TheInputHandler::Instance()->getIsSpaceKeyPressed())
   {
-    std::cout << "Ball.cpp.handleInput(): space pressed - now zigging " << horizontalDirection << "\n";
+    // std::cout << "Ball.cpp.handleInput(): space pressed - now zigging " << horizontalDirection << "\n";
+    TheSoundMixer::Instance()->playSound("spaceBar", 0);
     reverseHoriztonalDirection();//reverse direction method
   }
  }
@@ -54,21 +66,18 @@ void Ball::reverseVerticalDirection(){
   {
     verticalDirection = UP;
   }
-
+  TheSoundMixer::Instance()->playSound("hitPaddle", 0);
 }
 
 void Ball::reverseHoriztonalDirection(){
     if (horizontalDirection == LEFT)
   {
     horizontalDirection = RIGHT;
-    velocity.setY(-100);
   }
   else
   {
     horizontalDirection = LEFT;
-    velocity.setY(100);
   }
-
 }
 
   

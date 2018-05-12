@@ -1,5 +1,6 @@
 #include "Game.h"
 #include <iostream>
+#include "SoundMixer.h"
 #include "Ball.h"
 #include "BounceSurface.h"
 #include "CollisionManager.h"
@@ -41,7 +42,7 @@ bool Game::init(const char* title, int xpos, int ypos, int width, int height, bo
 
        if (m_pRenderer != 0) {
          std::cout << "Game: Renderer creation success\n";
-         SDL_SetRenderDrawColor(m_pRenderer, 0, 50, 0, 255);
+         SDL_SetRenderDrawColor(m_pRenderer, 0, 0, 0, 255);
        }
        else {
          std::cout << "Game: Renderer init failed\n";
@@ -65,6 +66,8 @@ bool Game::init(const char* title, int xpos, int ypos, int width, int height, bo
    windowWidth = width;
    windowHeight = height;
 
+   loadSounds();
+   
    loadTextures();
        
    loadObjects();
@@ -72,17 +75,25 @@ bool Game::init(const char* title, int xpos, int ypos, int width, int height, bo
    return true;
 }
 
+void Game::loadSounds()
+{
+  TheSoundMixer::Instance()->load("assets/changeDirection.wav", "spaceBar", SOUND_SFX);
+  TheSoundMixer::Instance()->load("assets/space.wav", "hitPaddle", SOUND_SFX);
+  TheSoundMixer::Instance()->load("assets/death.wav", "death", SOUND_SFX);
+}
+
 void Game::loadTextures()
 {
   TheTextureManager::Instance()->load("assets/blue.png", "ball", m_pRenderer);
   TheTextureManager::Instance()->load("assets/white.png", "whiteWall", m_pRenderer);
   TheTextureManager::Instance()->load("assets/red.png", "redWall", m_pRenderer);
-
+  TheTextureManager::Instance()->load("assets/overlayscreen.png", "overlayFilter", m_pRenderer);
+  //TheTextureManager::Instance()->load("assets/overlay.png", "overlay", m_pRenderer);
 }
 
 void Game::loadObjects()
 {
-  ball = new Ball(300,30,42,42,"ball", 4, NONE);
+  ball = new Ball((windowWidth/2),30,22,22,"whiteWall", 4, NONE);
       //m_gameObjects.push_back();
 
   int borderWidth = 10;
@@ -92,6 +103,9 @@ void Game::loadObjects()
 
   m_gameObjects.push_back(new BounceSurface(0,borderWidth, borderWidth,(windowHeight-borderWidth-borderWidth),"redWall",1,1)); //right wall
   m_gameObjects.push_back(new BounceSurface((windowWidth-borderWidth),borderWidth, borderWidth,(windowHeight-borderWidth-borderWidth),"redWall",1,1)); //left wall
+
+ screenOverlay = new GameObject(0,0, windowWidth,windowHeight,"overlayFilter",1,0); //Texture on screen
+
 }
 
 void Game::render()
@@ -103,7 +117,7 @@ void Game::render()
     m_gameObjects[i]->draw(/*m_pRenderer*/);
   }
   ball->draw();
-
+  screenOverlay->draw();
   
   SDL_RenderPresent(m_pRenderer);  //draw to the screen
 }

@@ -45,8 +45,17 @@ void InputHandler::update()
       TheGame::Instance()->quit();
     }
 
+    if (event.type == SDL_KEYDOWN)
+    {
+      if (event.key.keysym.sym == SDLK_SPACE)
+      {
+        std::cout << "space\n";
+        isSpaceKeyPressed = true;
+      }
+    }
   }
 }
+
 
 void InputHandler::clean()
 {

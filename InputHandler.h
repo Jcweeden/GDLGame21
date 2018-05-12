@@ -18,17 +18,30 @@ public:
 
   //returns true if parameter key is pressed
   bool isKeyDown(SDL_Scancode key);
-  
+
+  bool getIsSpaceKeyPressed()
+  {
+    if (isSpaceKeyPressed)
+    {
+      isSpaceKeyPressed = false;
+      return true;
+    }
+    else
+    {
+    return isSpaceKeyPressed;
+    }
+  } 
 private:
 
   InputHandler(){};
   
-    static InputHandler* s_pInstance;
+  static InputHandler* s_pInstance;
 
 
-    //keys
-    const Uint8* m_keystates;
-
+  //keys
+  const Uint8* m_keystates;
+  bool isSpaceKeyPressed;
+  
 };
 
 typedef InputHandler TheInputHandler;

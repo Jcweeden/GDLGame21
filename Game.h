@@ -1,6 +1,6 @@
 #ifndef _Game_
 #define _Game_
-#include <SDL2/SDL.h>
+#include "SDL2/SDL.h"
 
 #include "InputHandler.h"
 //#include "Ball.h"
@@ -27,7 +27,7 @@ public:
 
   void quit();
 
-
+  void loadSounds();
   void loadTextures();
   void loadObjects();
   
@@ -51,7 +51,7 @@ private:
   bool m_bRunning;
 
   Ball* ball;
-
+  GameObject* screenOverlay;
 
   int windowWidth;
   int windowHeight;

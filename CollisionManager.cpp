@@ -1,4 +1,6 @@
 #include "CollisionManager.h"
+#include "SoundMixer.h"
+
 #include <iostream>
 
 
@@ -47,6 +49,7 @@ void CollisionManager::checkForCollsionsAgainstBall(Ball* &ball, const std::vect
             break;
           case 1:
             std::cout << "GAMEOVER\n";
+            SoundMixer::Instance()->playSound("death",0);
             break;
           case 2:
             std::cout << "BOUNCE\n";

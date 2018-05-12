@@ -1,5 +1,5 @@
 #OBJS specifies which files to compile as part of the project
-OBJS = main.cpp Game.h Game.cpp I_GameObject.h I_GameObject.cpp GameObject.h GameObject.cpp InputHandler.h InputHandler.cpp Vector2D.h TextureManager.h TextureManager.cpp Ball.h Ball.cpp BounceSurface.h BounceSurface.cpp CollisionManager.h CollisionManager.cpp
+OBJS = main.cpp Game.h Game.cpp I_GameObject.h I_GameObject.cpp GameObject.h GameObject.cpp InputHandler.h InputHandler.cpp Vector2D.h TextureManager.h TextureManager.cpp Ball.h Ball.cpp BounceSurface.h BounceSurface.cpp CollisionManager.h CollisionManager.cpp SoundMixer.h SoundMixer.cpp
 
 
 #CC specifies which compiler we're using
@@ -10,7 +10,7 @@ CC = g++
 COMPILER_FLAGS = -w
 
 #LINKER_FLAGS specifies the libraries we're linking against 
-LINKER_FLAGS = -lSDL2 -lSDL2_image
+LINKER_FLAGS = -lSDL2 -lSDL2_image -lSDL2_mixer
 
 #OBJ_NAME specifies the name of our exectuable
 
