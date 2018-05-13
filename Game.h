@@ -37,13 +37,14 @@ public:
   void initText();
   bool loadFromRenderedText( std::string textureText, SDL_Color textColor );
 
-  void updateText(int textField, std::string text);
+  void updateScore(std::string text);
+  void updateHighScore(int score, std::string text);
 
   
   std::vector<GameObject*> m_gameObjects; //walls
 
   SDL_Renderer* getRenderer() const { return m_pRenderer; }
-
+  GameStateManager* getStateManager() {return m_pGameStateManager;}
 
   bool running() {return m_bRunning;}
 
@@ -66,6 +67,7 @@ private:
   
 
   Ball* ball;
+  GameObject* logo;
   GameObject* screenOverlay;
 
   int windowWidth;
@@ -74,7 +76,7 @@ private:
   int UIHeight;
 
 
-  int highscore;
+  int highScore;
   int currentGameScore;
   
   GameStateManager* m_pGameStateManager;
@@ -85,7 +87,7 @@ private:
 
   //text
   TTF_Font* fontTTF; //this opens a font style and sets a size
-  SDL_Color textColour = {255,255,255};  // this is the color in rgb format
+  SDL_Color textColour = {40,104,19};  // this is the color in rgb format
 
   
   SDL_Surface* scoreMessage;

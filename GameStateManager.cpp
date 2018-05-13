@@ -26,7 +26,20 @@ void GameStateManager::pushState(GameState* pState)
 
 void GameStateManager::changeState(GameState* pState)
 {
-  
+  if(!gameStates.empty()){
+        if(gameStates.back()->getStringID() == pState->getStringID()){
+            return; // do nothing if they are the same
+        }
+
+        if(gameStates.back()->getIsValid()){
+            gameStates.back()->setIsValid(false); // Mark the state as invalid
+        }
+    }
+
+    // push back our new state
+    gameStates.push_back(pState);
+
+    gameStates.back()->onEnter();
 }
 
 void GameStateManager::popState()
@@ -38,3 +51,19 @@ void GameStateManager::popState()
   }
 }
 
+void GameStateManager::dequeueState(){
+    if(!gameStates.empty()){
+        // If the state is invalid we proceed to dequeue the state
+      if(!gameStates[0]->getIsValid()) {
+        gameStates[0]->onExit();
+            delete gameStates[0];
+            gameStates.erase(gameStates.begin());
+
+            // Reset the Input handler buttons state
+            // This line is extremely important, fixes an issue with the "State traveling"
+            // when a button is in the position of another button in another state
+            // this will prevent the accident of traveling 2 states with 1 click.
+            // TheInputHandler::Instance()->reset();
+        }
+    }
+}

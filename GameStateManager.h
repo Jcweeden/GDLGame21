@@ -17,6 +17,15 @@ public:
    void update();
    void render();
 
+   void dequeueState();
+
+   /* void callGameOverOnCurrentState() */
+   /* { */
+   /*   gameStates[0] */
+
+   /*       } */
+
+   
 private:
   std::vector<GameState*> gameStates;
 };

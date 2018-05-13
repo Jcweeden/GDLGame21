@@ -3,6 +3,7 @@
 #include "SoundMixer.h"
 
 #include "PlayState.h"
+#include "MenuState.h"
 #include "Ball.h"
 #include "BounceSurface.h"
 #include "CollisionManager.h"
@@ -66,13 +67,13 @@ bool Game::init(const char* title, int xpos, int ypos, int width, int height, bo
    std::cout << "Game: Init success\n";
    m_bRunning = true;//start the main loop
 
-   highscore = 0;
+   highScore = 0;
    currentGameScore = 0;
    
    windowWidth = width;
    windowHeight = height;
    borderWidth = 10;
-   UIHeight = 100;
+   UIHeight = 70;
 
    initText();
    loadSounds();
@@ -82,7 +83,7 @@ bool Game::init(const char* title, int xpos, int ypos, int width, int height, bo
    m_pGameStateManager = new GameStateManager();
    
    //start on MenuState
-   m_pGameStateManager->pushState(new PlayState());
+   m_pGameStateManager->changeState(new MenuState());
    
    
    return true;
@@ -96,7 +97,7 @@ void Game::initText()
     exit(2);
   }
   
-  fontTTF = TTF_OpenFont("Assets/ShareTech.ttf", 24);
+  fontTTF = TTF_OpenFont("Assets/ka1.ttf", 24);
   if (fontTTF == NULL) {
         fprintf(stderr, "error: font not found\n");
     }
@@ -104,37 +105,39 @@ void Game::initText()
   scoreMessage = TTF_RenderText_Solid(fontTTF, "SCORE: 00:00", textColour); // as TTF_RenderText_Solid could only be used on SDL_Surface then you have to create the surface first
   scoreText = SDL_CreateTextureFromSurface(m_pRenderer, scoreMessage); 
   scoreRect.x = 0 + 30;  //controls the rect's x coordinate 
-  scoreRect.y = 0; // controls the rect's y coordinte
+  scoreRect.y = 10; // controls the rect's y coordinte
   scoreRect.w = 150; // controls the width of the rect
-  scoreRect.h = 100; // controls the height of the rect
+  scoreRect.h = 50; // controls the height of the rect
 
   highScoreMessage = TTF_RenderText_Solid(fontTTF, "HIGH: 00:00", textColour); // as TTF_RenderText_Solid could only be used on SDL_Surface then you have to create the surface first
   highScoreText = SDL_CreateTextureFromSurface(m_pRenderer, highScoreMessage); 
   highScoreRect.x = windowWidth-150-30;  //controls the rect's x coordinate 
-  highScoreRect.y = 0; // controls the rect's y coordinte
+  highScoreRect.y = 10; // controls the rect's y coordinte
   highScoreRect.w = 150; // controls the width of the rect
-  highScoreRect.h = 100; // controls the height of the rect
+  highScoreRect.h = 50; // controls the height of the rect
 }
 
 //pass in 0 to update score, 1 to update highScore
-void Game::updateText(int textField, std::string text)
-{
+void Game::updateScore(std::string text)
+{  
+  text.insert(0, "SCORE: ");
+  scoreMessage = TTF_RenderText_Solid(fontTTF, text.c_str(), textColour);
+  scoreText = SDL_CreateTextureFromSurface(m_pRenderer, scoreMessage); 
+}
 
-  std::cout<<text.c_str() << "\n";
-  
-  switch (textField)
+void Game::updateHighScore(int score, std::string text)
+{
+  std::cout << "new highscore: " << text << "\n";
+  //std::cout << "running updateHighScore - old high: " << highScore << " new score: " << score <<  "\n";
+  if (score > highScore) {
+    highScore = score;
+    text.insert(0, "HIGH: ");
+    highScoreMessage = TTF_RenderText_Solid(fontTTF, text.c_str(), textColour);
+    highScoreText = SDL_CreateTextureFromSurface(m_pRenderer, highScoreMessage);
+  }
+  else
   {
-    case 0:
-      text.insert(0, "SCORE: ");
-      scoreMessage = TTF_RenderText_Solid(fontTTF, text.c_str(), textColour);
-      scoreText = SDL_CreateTextureFromSurface(m_pRenderer, scoreMessage); 
-      break;
-      
-    case 1:
-      text.insert(0, "HIGH: ");
-      highScoreMessage = TTF_RenderText_Solid(fontTTF, "", textColour);
-      highScoreText = SDL_CreateTextureFromSurface(m_pRenderer, highScoreMessage);
-      break;
+    //score was not highest
   }
 }
 
@@ -147,25 +150,27 @@ void Game::loadSounds()
 
 void Game::loadTextures()
 {
-  TheTextureManager::Instance()->load("assets/white.png", "whiteWall", m_pRenderer);
-  TheTextureManager::Instance()->load("assets/red.png", "redWall", m_pRenderer);
+  TheTextureManager::Instance()->load("assets/darkGreen.png", "whiteWall", m_pRenderer);
+  TheTextureManager::Instance()->load("assets/darkGreen.png", "redWall", m_pRenderer);
   TheTextureManager::Instance()->load("assets/overlayscreen.png", "overlayFilter", m_pRenderer);
+  TheTextureManager::Instance()->load("assets/logo.png", "logo", m_pRenderer);  
 }
 
 void Game::loadObjects()
 {  
 
-  //SCORE UI
-  
-
   //WALLS
-  m_gameObjects.push_back(new BounceSurface(0,UIHeight, windowWidth,borderWidth,"whiteWall",1,2)); //top wall
-  m_gameObjects.push_back(new BounceSurface(0,(windowHeight-borderWidth), windowWidth,borderWidth,"whiteWall",1,2)); //bottom wall
+  m_gameObjects.push_back(new BounceSurface(0,UIHeight, windowWidth,borderWidth,"redWall",1,1)); //top wall
+  m_gameObjects.push_back(new BounceSurface(0,(windowHeight-borderWidth), windowWidth,borderWidth,"redWall",1,1)); //bottom wall
 
   m_gameObjects.push_back(new BounceSurface(0,UIHeight, borderWidth,(windowHeight-borderWidth-borderWidth),"redWall",1,1)); //right wall
   m_gameObjects.push_back(new BounceSurface((windowWidth-borderWidth),UIHeight, borderWidth,(windowHeight-borderWidth-borderWidth),"redWall",1,1)); //left wall
 
- screenOverlay = new GameObject(0,0, windowWidth,windowHeight,"overlayFilter",1,0); //Texture on screen
+  //LOGO
+  //logo = new GameObject(200,0, 100,100,"logo",1,0); //Texture on screen
+
+  //OVERLAY
+  screenOverlay = new GameObject(0,0, windowWidth,windowHeight,"overlayFilter",1,0); //Texture on screen
 
 }
 
@@ -189,6 +194,10 @@ void Game::render()
 
   //update highscore text
   SDL_RenderCopy(m_pRenderer, highScoreText, NULL, &highScoreRect); 
+
+
+  //draw logo
+  //logo->draw();
   
   //draw screen filter
   screenOverlay->draw();
@@ -217,6 +226,10 @@ void Game::clean() {
   for (size_t i; i < m_gameObjects.size(); i++) {
     m_gameObjects[i]->clean();
   }
+
+  screenOverlay->clean();
+  //logo->clean();
+  
   m_gameObjects.clear();
 
   //destroy fonts

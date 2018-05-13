@@ -32,6 +32,8 @@ void clean();
 
 void reverseHoriztonalDirection();
 void reverseVerticalDirection();
+void setGameOver() { gameOver = true;}
+bool getGameOver() { return gameOver;}
 
 private:
 void handleInput();
@@ -39,6 +41,8 @@ void handleInput();
 int verticalDirection;
 int horizontalDirection;
 
+
+bool gameOver;
 };
 
 #endif

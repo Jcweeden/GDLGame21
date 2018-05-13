@@ -6,7 +6,8 @@ Ball::Ball(int x, int y, int p_width, int p_height, std::string textureID, int p
     :GameObject(x, y, p_width, p_height, textureID, p_numFrames, p_resultOfCollisionType)
 {
   verticalDirection = DOWN;
-  horizontalDirection = RIGHT;  
+  horizontalDirection = RIGHT;
+  gameOver = false;
 }
 
 void Ball::draw()
@@ -16,31 +17,39 @@ void Ball::draw()
 
 void Ball::update()
 {
-  handleInput();
 
-  //incorporate speed of the ball
-  currentFrame = int(((SDL_GetTicks() / 100) % 6));
+  if (!gameOver) {
+    handleInput();
+
+    //incorporate speed of the ball
+    //currentFrame = int(((SDL_GetTicks() / 100) % 6));
 
 
-  if (verticalDirection == DOWN)
-  {
-    velocity.setY(2);
+    if (verticalDirection == DOWN)
+    {
+      velocity.setY(2);
+    }
+    else
+    {
+      velocity.setY(-2);
+    }
+
+    if (horizontalDirection == RIGHT)
+    {
+      velocity.setX(-2);
+    }
+    else
+    {
+      velocity.setX(2);
+    }
+
+    GameObject::update();
   }
   else
   {
-    velocity.setY(-2);
+    velocity.setX(0);
+    velocity.setY(0);
   }
-
-  if (horizontalDirection == RIGHT)
-  {
-    velocity.setX(-2);
-  }
-  else
-  {
-    velocity.setX(2);
-  }
-
-  GameObject::update();
   
 }
 

@@ -40,6 +40,9 @@ bool TextureManager::load(std::string file, std::string mapID, SDL_Renderer* pRe
 
 void TextureManager:: draw(std::string mapID, int x, int y, int width, int height, SDL_Renderer* pRenderer, SDL_RendererFlip flip)
 {
+
+  flip = SDL_FLIP_NONE;
+  
   SDL_Rect srcRect;
   SDL_Rect destRect;
 

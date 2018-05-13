@@ -4,14 +4,10 @@
 #include "Game.h"
 #include "Ball.h"
 #include "Paddle.h"
+#include "MenuState.h"
 
 
- const std::string PlayState::playStateID = "PLAY";
-// std::vector<GameObject*> gameObjects;
-// Ball* ball;
-
-
-
+const std::string PlayState::playStateID = "PLAY";
 
 void PlayState::update ()
 {
@@ -21,24 +17,48 @@ void PlayState::update ()
   }
   ball->update();
 
-  
-  //loop through objects and check for collisions against the ball
-  TheCollManager::Instance()->checkForCollsionsAgainstBall(ball, TheGame::Instance()->m_gameObjects); //check walls for collisions
-  TheCollManager::Instance()->checkForCollsionsAgainstBall(ball, gameObjects); //check paddles and obstacles
+  gameOver = ball->getGameOver();
 
-  TheGame::Instance()->updateText(0, calculateTimerScore( (gameStartTime = SDL_GetTicks())/1000 ) );
+  if (!gameOver) {
+    //loop through objects and check for collisions against the ball
+    TheCollManager::Instance()->checkForCollsionsAgainstBall(ball, TheGame::Instance()->m_gameObjects); //check walls for collisions
+    TheCollManager::Instance()->checkForCollsionsAgainstBall(ball, gameObjects); //check paddles and obstacles
+
+    TheGame::Instance()->updateScore(calculateTimerScore((SDL_GetTicks() - gameStartTime)/1000));
+
+    TheGame::Instance()->getStateManager()->dequeueState();
+  }
+  else if (!triggerEndGame)
+  {
+    endGameTime = (SDL_GetTicks() - gameStartTime);
+    triggerEndGame = true;
+  }
+
+  if(gameOver)
+  {
+    if (SDL_GetTicks() - (endGameTime+gameStartTime) > 1000 && !highScoreUpdated)
+    {
+      TheGame::Instance()->updateHighScore(endGameTime/1000, calculateTimerScore(endGameTime/1000));
+      highScoreUpdated = true;
+    }
+
+    if (SDL_GetTicks() - (endGameTime+gameStartTime) > 3000)
+    {
+      TheGame::Instance()->getStateManager()->changeState(new MenuState());
+    }
+  }
 }
 
 std::string PlayState::calculateTimerScore(int time)
 {
   int mins = time / 60;
-  int seconds = time - (mins*60);
+  int seconds = time - (mins * 60);
   
   std::string timerScore = std::to_string(mins);
 
   if (mins < 10)
   {
-    timerScore.insert(0,"0");
+    timerScore.insert(0, "0");
   }
   timerScore.append(":");
   if (seconds < 10)
@@ -46,8 +66,7 @@ std::string PlayState::calculateTimerScore(int time)
     timerScore.append("0");
   }
 
-  timerScore.append(std::to_string(seconds));
-    
+  timerScore.append(std::to_string(seconds));   
   
   return timerScore;
 }
@@ -63,9 +82,14 @@ void PlayState::render ()
 
 void PlayState::onEnter()
 {
+  gameOver = false;
+  triggerEndGame = false;
+  highScoreUpdated = false;
+  gameStartTime = SDL_GetTicks();
+  endGameTime = 0;
   
   int ballWidthHeight = 22;
-  TheTextureManager::Instance()->load("assets/white.png", "ball", TheGame::Instance()->getRenderer());
+  TheTextureManager::Instance()->load("assets/lightGreen.png", "ball", TheGame::Instance()->getRenderer());
   ball = new Ball(((TheGame::Instance()->getWindowWidth()/2)+(ballWidthHeight/2)),
                    TheGame::Instance()->getUIHeight() + 30,
                    ballWidthHeight,
@@ -78,16 +102,16 @@ void PlayState::onEnter()
   int paddleWidth = 90;
   int paddleHeight = 16;
   
-  TheTextureManager::Instance()->load("assets/yellow.png", "paddle", TheGame::Instance()->getRenderer());
+  TheTextureManager::Instance()->load("assets/midGreen.png", "paddle", TheGame::Instance()->getRenderer());
   paddleTop = new Paddle((TheGame::Instance()->getWindowWidth()/2)-(paddleWidth/2),
-                         TheGame::Instance()->getBorderWidth() + TheGame::Instance()->getUIHeight(),
+                         TheGame::Instance()->getBorderWidth() + TheGame::Instance()->getUIHeight() + 5,
                          paddleWidth,
                          paddleHeight,
                          "paddle",
                          1,
                          BOUNCE);
   paddleBottom = new Paddle((TheGame::Instance()->getWindowWidth()/2)-(paddleWidth/2),
-                            (TheGame::Instance()->getWindowHeight())-TheGame::Instance()->getBorderWidth()-paddleHeight,
+                            (TheGame::Instance()->getWindowHeight())-TheGame::Instance()->getBorderWidth()-paddleHeight - 5,
                             paddleWidth,
                             paddleHeight,
                             "paddle",
@@ -106,6 +130,8 @@ void PlayState::onExit()
   }
   gameObjects.clear();
   
-  TheTextureManager::Instance()->clearFromTextureMap("ball");  
-  
+  TheTextureManager::Instance()->clearFromTextureMap("ball");
+  TheGame::Instance()->updateScore(calculateTimerScore(0) );
+
 }
+

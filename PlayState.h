@@ -16,7 +16,7 @@ class PlayState : public GameState {
   
 public:
 
-    PlayState(){}
+  PlayState(){}
 
   
   virtual void update();
@@ -27,9 +27,14 @@ public:
 
   virtual std::string getStringID() {return playStateID;}
 
-
+  //virtual void callGameOver();
+  
 private:
 
+  bool gameOver;
+  bool triggerEndGame;
+  bool highScoreUpdated;
+  
   std::string calculateTimerScore(int time);
   
   static const std::string playStateID;
@@ -39,6 +44,7 @@ private:
   Paddle* paddleBottom;
 
   int gameStartTime;
+  int endGameTime;
 };
 
 

@@ -41,18 +41,24 @@ void CollisionManager::checkForCollsionsAgainstBall(Ball* &ball, const std::vect
     
     if (isColliding(ballRect, objRect))     //if there is a collision between the obj and the ball
     {
-      std::cout << "Collision: " << objects[i]->resultOfCollision() << "\n";
+      //std::cout << "Collision: " << objects[i]->resultOfCollision() << "\n";
 
         switch (objects[i]->resultOfCollision()) {
           case 0:
-            std::cout << "NONE\n";
+            //std::cout << "NONE\n";
             break;
           case 1:
-            std::cout << "GAMEOVER\n";
+            //std::cout << "GAMEOVER\n";
+            if (!(ball->getGameOver())) //if game over has not been called before
+            {
             SoundMixer::Instance()->playSound("death",0);
+
+            ball->setGameOver();            
+            }
+            
             break;
           case 2:
-            std::cout << "BOUNCE\n";
+            //std::cout << "BOUNCE\n";
             ball->reverseVerticalDirection();
             break;
         }       
