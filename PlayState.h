@@ -15,6 +15,10 @@ class Paddle;
 class PlayState : public GameState {  
   
 public:
+
+    PlayState(){}
+
+  
   virtual void update();
   virtual void render();
 
@@ -25,11 +29,16 @@ public:
 
 
 private:
+
+  std::string calculateTimerScore(int time);
+  
   static const std::string playStateID;
   std::vector<GameObject*> gameObjects;
   Ball* ball;
   Paddle* paddleTop;
   Paddle* paddleBottom;
+
+  int gameStartTime;
 };
 
 

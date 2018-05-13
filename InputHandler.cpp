@@ -49,7 +49,7 @@ void InputHandler::update()
     {
       if (event.key.keysym.sym == SDLK_SPACE)
       {
-        std::cout << "space\n";
+        //std::cout << "space\n";
         isSpaceKeyPressed = true;
       }
     }

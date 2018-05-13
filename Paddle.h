@@ -12,11 +12,14 @@ class GameObject;
 class Paddle : public GameObject
 {
 public:
-  Paddle(int x, int y, int p_width, int p_height, std::string textureID, int p_numFrames, int p_resultOfCollisionType = 0);
+  Paddle(int x, int y, int p_width, int p_height, std::string textureID, int p_numFrames, int p_resultOfCollisionType);
   
 void draw();
 void update();
 void clean();
+
+virtual int resultOfCollision() { return resultOfCollisionType;}
+
 
 private:
 void handleInput();

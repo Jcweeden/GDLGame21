@@ -25,18 +25,13 @@ public:
   virtual void clean();
 
 
-
   Vector2D& getPosition() { return position; }
   int getWidth() { return width; }
   int getHeight() { return height; }
 
   virtual int resultOfCollision() {}
-
   
 protected:
-
-  // virtual ~GameObject() {}
-
   
   int width;
   int height;
@@ -51,8 +46,6 @@ protected:
   int currentFrame;
 
   std::string textureID;
-
-
   int resultOfCollisionType;
 
 };

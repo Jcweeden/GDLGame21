@@ -41,7 +41,7 @@ void CollisionManager::checkForCollsionsAgainstBall(Ball* &ball, const std::vect
     
     if (isColliding(ballRect, objRect))     //if there is a collision between the obj and the ball
     {
-        std::cout << "Collision: ";
+      std::cout << "Collision: " << objects[i]->resultOfCollision() << "\n";
 
         switch (objects[i]->resultOfCollision()) {
           case 0:
