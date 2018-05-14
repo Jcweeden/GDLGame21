@@ -19,9 +19,6 @@ CollisionManager* CollisionManager::Instance()
 
 void CollisionManager::checkForCollsionsAgainstBall(Ball* &ball, const std::vector<GameObject*> &objects)
 {
-
-
-
   SDL_Rect* ballRect = new SDL_Rect();
   ballRect->x = ball->getPosition().getX();
   ballRect->y = ball->getPosition().getY();

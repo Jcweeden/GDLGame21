@@ -1,5 +1,5 @@
 #OBJS specifies which files to compile as part of the project
-OBJS = main.cpp Game.h Game.cpp I_GameObject.h I_GameObject.cpp GameObject.h GameObject.cpp InputHandler.h InputHandler.cpp Vector2D.h TextureManager.h TextureManager.cpp Ball.h Ball.cpp BounceSurface.h BounceSurface.cpp CollisionManager.h CollisionManager.cpp SoundMixer.h SoundMixer.cpp GameStateManager.h GameStateManager.cpp GameState.h GameState.cpp PlayState.h PlayState.cpp Paddle.h Paddle.cpp MenuState.h MenuState.cpp Obstacle.h Obstacle.cpp
+OBJS = main.cpp Game.cpp I_GameObject.cpp GameObject.cpp InputHandler.cpp TextureManager.cpp Ball.cpp BounceSurface.cpp CollisionManager.cpp SoundMixer.cpp GameStateManager.cpp GameState.cpp PlayState.cpp Paddle.cpp MenuState.cpp Obstacle.cpp BallTrail.cpp
 
 
 #CC specifies which compiler we're using
@@ -13,8 +13,8 @@ COMPILER_FLAGS = -w
 LINKER_FLAGS = -lSDL2 -lSDL2_image -lSDL2_mixer -lSDL2_ttf
 
 #OBJ_NAME specifies the name of our exectuable
-
+OBJ_NAME = ZigZagPingPong
 
 #This is the target that compiles our executable
 all : $(OBJS)
-	$(CC) $(OBJS) $(COMPILER_FLAGS) $(LINKER_FLAGS)
+	$(CC) $(OBJS) $(COMPILER_FLAGS) $(LINKER_FLAGS) -o $(OBJ_NAME)

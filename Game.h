@@ -69,7 +69,9 @@ private:
   Ball* ball;
   GameObject* logo;
   GameObject* screenOverlay;
+  GameObject* screenEdgeOverlay;
 
+  
   int windowWidth;
   int windowHeight;
   int borderWidth;

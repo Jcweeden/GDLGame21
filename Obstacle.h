@@ -19,9 +19,21 @@ public:
   void draw();
   void update();
   void clean();
-  
+
+  virtual int resultOfCollision() { return resultOfCollisionType;}
+
 private:
   //  void handleInput();
+
+  bool render;
+  
+  void initSpawn();
+  void spawn();
+  
+  bool isSpawning;
+  int spawnTimeStart;
+
+  void setCollisionType(int newColType) {resultOfCollisionType = newColType ;}
 
 
 };

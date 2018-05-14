@@ -65,3 +65,8 @@ void SoundMixer::playSound(std::string id, int loop)
 {
   Mix_PlayChannel(2, m_sfxs[id], loop);
 }
+
+void SoundMixer::playSpawned(std::string id, int loop)
+{
+  Mix_PlayChannel(3, m_sfxs[id], loop);
+}

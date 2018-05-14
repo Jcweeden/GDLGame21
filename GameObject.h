@@ -28,9 +28,12 @@ public:
   Vector2D& getPosition() { return position; }
   int getWidth() { return width; }
   int getHeight() { return height; }
+  void setWidth(int val) { width = val; }
+  void setHeight(int val) {height = val; }
 
   virtual int resultOfCollision() {}
-  
+
+  void setTextureID(std::string newID) { textureID = newID;} 
 protected:
   
   int width;
@@ -46,8 +49,8 @@ protected:
   int currentFrame;
 
   std::string textureID;
-  int resultOfCollisionType;
 
+  int resultOfCollisionType;
 };
 
 #endif

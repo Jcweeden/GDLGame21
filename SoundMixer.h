@@ -22,7 +22,7 @@ bool load(std::string fileName, std::string id, soundType type);
 
 void playSound (std::string id, int loop);
 void playMusic (std::string id, int loop);
-
+void playSpawned (std::string id, int loop);
 
 private:
 SoundMixer();

@@ -5,7 +5,6 @@
 Paddle::Paddle(int x, int y, int p_width, int p_height, std::string textureID, int p_numFrames, int p_resultOfCollisionType)
     :GameObject(x, y, p_width, p_height, textureID, p_numFrames, p_resultOfCollisionType)
 {
-  std::cout << p_resultOfCollisionType << "\n";
 }
 
 void Paddle::draw()
@@ -26,7 +25,7 @@ void Paddle::handleInput()
   bool paddleMoving = false;
 
   //MOVE LEFT
-  if (GameObject::getPosition().getX() > TheGame::Instance()->getBorderWidth()) {
+  if (GameObject::getPosition().getX() > TheGame::Instance()->getBorderWidth() + 5 + 55) {
     if (TheInputHandler::Instance()->isKeyDown(SDL_SCANCODE_LEFT))
     {
       velocity.setX(-2);
@@ -38,7 +37,7 @@ void Paddle::handleInput()
   }
 
   //MOVE RIGHT
-  if (GameObject::getPosition().getX() < (TheGame::Instance()->getWindowWidth() -  TheGame::Instance()->getBorderWidth() - GameObject::getWidth())) {
+  if (GameObject::getPosition().getX() < (TheGame::Instance()->getWindowWidth() -  TheGame::Instance()->getBorderWidth() - GameObject::getWidth() - 5)+54) {
     if (TheInputHandler::Instance()->isKeyDown(SDL_SCANCODE_RIGHT))
     {
       velocity.setX(2);

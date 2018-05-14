@@ -2,6 +2,7 @@
 #define _PLAYSTATE_
 
 #include "GameState.h"
+#include "Vector2D.h"
 //#include "GameObject.h"
 
 #include <iostream>
@@ -31,6 +32,22 @@ public:
   
 private:
 
+  void checkToSpawnNewObstacle();
+  void spawnObstacle();
+  void calculateObstacleSpawnBoundaries();
+  Vector2D* findSpawnLocation(int widthHeight);
+  int calculateObstacleSpawnWidthHeight();
+
+  int minX, maxX, minY, maxY; //restrictions on spawns
+  float timeToNextObstacle;
+  float countdownToNextObstacle;
+  int numObstaclesSpawned;
+  int lastFrameTime;
+
+
+  
+  void endGameEvents();
+  
   bool gameOver;
   bool triggerEndGame;
   bool highScoreUpdated;
@@ -42,6 +59,9 @@ private:
   Ball* ball;
   Paddle* paddleTop;
   Paddle* paddleBottom;
+  int paddleWidth;
+  int paddleHeight;
+  int paddleBuffer;
 
   int gameStartTime;
   int endGameTime;

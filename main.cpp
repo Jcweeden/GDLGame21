@@ -19,7 +19,7 @@ int main(int argc, char* argv[])
    
    std::cout << "\n\nMain: game init attempt..\n";
 
-   if(TheGame::Instance()->init("Pong", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 480, 600, true)) {
+   if(TheGame::Instance()->init("Zig-Zag-Ping-Pong", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 510, 723, true)) {
    std::cout << "Main: game init successful\n";
 
    while (TheGame::Instance()->running())

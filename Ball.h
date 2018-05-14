@@ -4,6 +4,8 @@
 #include "SDL2/SDL.h"
 
 #include "GameObject.h"
+#include "BallTrail.h"
+
 #include "InputHandler.h"
 #include <iostream>
 
@@ -41,8 +43,14 @@ void handleInput();
 int verticalDirection;
 int horizontalDirection;
 
+int countdownToNextTrail;
+int lastFrameTime;
 
 bool gameOver;
+
+  std::vector<BallTrail*> ballTrails;
+
+
 };
 
 #endif

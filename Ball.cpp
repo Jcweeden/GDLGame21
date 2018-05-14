@@ -8,39 +8,67 @@ Ball::Ball(int x, int y, int p_width, int p_height, std::string textureID, int p
   verticalDirection = DOWN;
   horizontalDirection = RIGHT;
   gameOver = false;
+  countdownToNextTrail = 50;
+  lastFrameTime = 0;
 }
 
 void Ball::draw()
 {
-  GameObject::draw();
+
+  for (size_t i = 0; i < ballTrails.size(); i++)
+  {
+    if (ballTrails[i]->getIsSpawning())
+    {
+      ballTrails[i]->draw();
+    } else
+    {
+      //delete ballTrails[i];
+      ballTrails.erase(ballTrails.begin()+i);
+    }
+  }
+
+    GameObject::draw();
+
 }
 
 void Ball::update()
 {
 
+  for (size_t i = 0; i < ballTrails.size(); i++)
+  {
+    ballTrails[i]->update();
+  }
+  
   if (!gameOver) {
     handleInput();
 
-    //incorporate speed of the ball
-    //currentFrame = int(((SDL_GetTicks() / 100) % 6));
-
-
-    if (verticalDirection == DOWN)
-    {
-      velocity.setY(2);
+    if (countdownToNextTrail < 0) { //time to spawn new obstacle
+      ballTrails.push_back(new BallTrail(GameObject::position.getX(),GameObject::position.getY(), 22,22, "darkGreen",1,0));//new trail
+      countdownToNextTrail = 50;
     }
     else
     {
-      velocity.setY(-2);
+      countdownToNextTrail -= (SDL_GetTicks() - lastFrameTime);
+    }
+
+    lastFrameTime = SDL_GetTicks();
+
+    if (verticalDirection == DOWN)
+    {
+      velocity.setY(2.5);
+    }
+    else
+    {
+      velocity.setY(-2.5);
     }
 
     if (horizontalDirection == RIGHT)
     {
-      velocity.setX(-2);
+      velocity.setX(-2.5);
     }
     else
     {
-      velocity.setX(2);
+      velocity.setX(2.5);
     }
 
     GameObject::update();

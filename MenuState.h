@@ -2,7 +2,9 @@
 #define _MENUSTATE_
 
 #include "GameState.h"
-//#include "GameObject.h"
+
+#include <SDL2/SDL_ttf.h>
+#include <SDL2/SDL_image.h>
 
 #include <iostream>
 #include <vector>
@@ -41,7 +43,27 @@ private:
   GameObject* pressToBeginImg;
 
   int timeAtStart;
+
+
+  //text
+  TTF_Font* fontTTF; //this opens a font style and sets a size
+  TTF_Font* instructionFontTTF; //this opens a font style and sets a size
+
+  SDL_Color textColour = {40,104,19};  // this is the color in rgb format
+  SDL_Color titleColour = {113,119,65};  // this is the color in rgb format
+
   
+  SDL_Surface* titleMessage;
+  SDL_Texture* titleText; 
+  SDL_Rect titleRect;
+
+  SDL_Surface* pressToPlayMessage;
+  SDL_Texture* pressToPlayText;
+  SDL_Rect pressToPlayRect;
+
+  SDL_Surface* instructionsMessage;
+  SDL_Texture* instructionsText;
+  SDL_Rect instructionsRect;
 };
 
 #endif
