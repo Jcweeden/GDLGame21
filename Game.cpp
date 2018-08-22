@@ -233,7 +233,7 @@ void Game::clean() {
 
   //TheInputHandler::Instance()->clean();//remove any controller connections
 
-  for (size_t i; i < m_gameObjects.size(); i++) {
+  for (size_t i = 0; i < m_gameObjects.size(); i++) {
     m_gameObjects[i]->clean();
   }
 
